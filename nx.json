@@ -1,0 +1,42 @@
+{
+  "npmScope": "jam",
+  "affected": {
+    "defaultBase": "master"
+  },
+  "implicitDependencies": {
+    "package.json": {
+      "dependencies": "*",
+      "devDependencies": "*"
+    },
+    ".eslintrc.json": "*"
+  },
+  "tasksRunnerOptions": {
+    "default": {
+      "runner": "@nrwl/nx-cloud",
+      "options": {
+        "cacheableOperations": ["build", "lint", "test", "e2e"],
+        "accessToken": "MzU0NTA3ZDktZTkxYy00OTc2LTljZDItODRmMThmNzQxMzAwfHJlYWQtd3JpdGU="
+      }
+    }
+  },
+  "targetDependencies": {
+    "build": [
+      {
+        "target": "build",
+        "projects": "dependencies"
+      }
+    ]
+  },
+  "projects": {
+    "jam-backend": {
+      "tags": []
+    },
+    "jam-frontend": {
+      "tags": []
+    },
+    "jam-frontend-e2e": {
+      "tags": [],
+      "implicitDependencies": ["jam-frontend"]
+    }
+  }
+}

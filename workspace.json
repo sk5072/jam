@@ -1,0 +1,181 @@
+{
+  "version": 2,
+  "projects": {
+    "jam-backend": {
+      "root": "apps/jam-backend",
+      "sourceRoot": "apps/jam-backend/src",
+      "projectType": "application",
+      "targets": {
+        "build": {
+          "executor": "@nrwl/node:build",
+          "outputs": ["{options.outputPath}"],
+          "options": {
+            "outputPath": "dist/apps/jam-backend",
+            "main": "apps/jam-backend/src/main.ts",
+            "tsConfig": "apps/jam-backend/tsconfig.app.json",
+            "assets": ["apps/jam-backend/src/assets"]
+          },
+          "configurations": {
+            "production": {
+              "optimization": true,
+              "extractLicenses": true,
+              "inspect": false,
+              "fileReplacements": [
+                {
+                  "replace": "apps/jam-backend/src/environments/environment.ts",
+                  "with": "apps/jam-backend/src/environments/environment.prod.ts"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "executor": "@nrwl/node:execute",
+          "options": {
+            "buildTarget": "jam-backend:build"
+          }
+        },
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "outputs": ["{options.outputFile}"],
+          "options": {
+            "lintFilePatterns": ["apps/jam-backend/**/*.ts"]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/apps/jam-backend"],
+          "options": {
+            "jestConfig": "apps/jam-backend/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
+    "jam-frontend": {
+      "root": "apps/jam-frontend",
+      "sourceRoot": "apps/jam-frontend/src",
+      "projectType": "application",
+      "targets": {
+        "build": {
+          "executor": "@nrwl/web:build",
+          "outputs": ["{options.outputPath}"],
+          "options": {
+            "outputPath": "dist/apps/jam-frontend",
+            "index": "apps/jam-frontend/src/index.html",
+            "main": "apps/jam-frontend/src/main.tsx",
+            "polyfills": "apps/jam-frontend/src/polyfills.ts",
+            "tsConfig": "apps/jam-frontend/tsconfig.app.json",
+            "assets": [
+              "apps/jam-frontend/src/favicon.ico",
+              "apps/jam-frontend/src/assets"
+            ],
+            "styles": ["apps/jam-frontend/src/styles.css"],
+            "scripts": [],
+            "webpackConfig": "@nrwl/react/plugins/webpack"
+          },
+          "configurations": {
+            "production": {
+              "fileReplacements": [
+                {
+                  "replace": "apps/jam-frontend/src/environments/environment.ts",
+                  "with": "apps/jam-frontend/src/environments/environment.prod.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "500kb",
+                  "maximumError": "1mb"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "executor": "@nrwl/web:dev-server",
+          "options": {
+            "buildTarget": "jam-frontend:build",
+            "hmr": true,
+            "proxyConfig": "apps/jam-frontend/proxy.conf.json"
+          },
+          "configurations": {
+            "production": {
+              "buildTarget": "jam-frontend:build:production",
+              "hmr": false
+            }
+          }
+        },
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "outputs": ["{options.outputFile}"],
+          "options": {
+            "lintFilePatterns": ["apps/jam-frontend/**/*.{ts,tsx,js,jsx}"]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/apps/jam-frontend"],
+          "options": {
+            "jestConfig": "apps/jam-frontend/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
+    "jam-frontend-e2e": {
+      "root": "apps/jam-frontend-e2e",
+      "sourceRoot": "apps/jam-frontend-e2e/src",
+      "projectType": "application",
+      "targets": {
+        "e2e": {
+          "executor": "@nrwl/cypress:cypress",
+          "options": {
+            "cypressConfig": "apps/jam-frontend-e2e/cypress.json",
+            "devServerTarget": "jam-frontend:serve",
+            "tsConfig": "apps/jam-frontend-e2e/tsconfig.json"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "jam-frontend:serve:production"
+            }
+          }
+        },
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "outputs": ["{options.outputFile}"],
+          "options": {
+            "lintFilePatterns": ["apps/jam-frontend-e2e/**/*.{js,ts}"]
+          }
+        }
+      }
+    }
+  },
+  "cli": {
+    "defaultCollection": "@nrwl/react"
+  },
+  "generators": {
+    "@nrwl/react": {
+      "application": {
+        "style": "css",
+        "linter": "eslint",
+        "babel": true
+      },
+      "component": {
+        "style": "css"
+      },
+      "library": {
+        "style": "css",
+        "linter": "eslint"
+      }
+    }
+  },
+  "defaultProject": "jam-frontend"
+}
